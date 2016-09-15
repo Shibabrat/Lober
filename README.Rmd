@@ -1,15 +1,5 @@
 ---
 title: "Lober: Computational engine for lobe dynamics"
-output:
-  html_document:
-    theme: united
-    toc: yes
-  md_document:
-    toc: yes
-    variant: markdown_github
-  pdf_document:
-    highlight: zenburn
-    toc: yes
 ---
 
 # Installing and troubleshooting
