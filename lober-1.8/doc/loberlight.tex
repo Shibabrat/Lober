@@ -1,0 +1,188 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Lober -light : Computation of lobes between two closed curves that can be locally tangent}
+
+\author{Francois, Shane}
+
+\maketitle
+
+\section{Hypothesis}
+
+We consider two {\em closed} curves $C_1$ and $C_2$, both oriented in a counter-clockwise direction. We want to determine the area of the lobes (i.e. the area of $A\backslash B$ and $B\backslash A$) defined by these two curves. 
+
+In contrast with our previous approach, we do {\em not} require the two curves to have only transverse intersections. We allow non-tranverse intersection points and we also allow segments of curves that are common to $C_1$ and $C_2$.
+
+\section{Previous approaches}
+
+During previous numerical runs, we used an algorithm based on primary intersection points and regular intersection points to identify the boundary of each lobe and then compute the area of these lobes. These algorithms cannot be adapted to match the new problem. The tangency of the two curves creates both a confusion in the ordering of the interesection points and the postiion of the lobes as well as an enourmeous computational difficulty to extract the actual position of the intersection (determinant of a linear system $\to 0$).
+
+The most reasonable patch used is to ``inflate'' or ``deflate'' the curves before computation in order to avoid the tangency. We transformed each point $\bar{x}$ of one of the curve to $\bar{x} + \epsilon (\bar{x}-\bar{x}_g) / \left\| (\bar{x}-\bar{x}_g) \right\| $, where $\bar{x}_g$ is the center of gravity of the curve. This can remove the presence of non-tranverse intersections for $\epsilon > \epsilon _0$, where the limit $\epsilon _0$ is carefully chosen. However, the curve used in our problem contains many segment very close to each other in such a way that increasing $\epsilon $ above the minimum distance between the segments $\epsilon _1 $ creates new non-transverse intersections. In one example $\epsilon _1 $ was smaller than $\epsilon _0$ forbidding the use of this trick to compute the lobe area. Moreover, the error on the area increases quickly with $\epsilon$, so we developped the following exact method that is completely robust to non-transverse intersection of the curves.
+
+\section{One-dimensional Integrals for Area}
+
+Let us define $A_1$ and $A_2$ as the area enclosed by respectively $C_1$ and $C_2$. The area of each region can be computed as:
+
+\begin{equation}
+  A_i = \int \! \! \! \int _{A_i} dA = \frac{1}{2} \int _{C_i} y dx - x dy .
+\end{equation} We proved this result before and it allows us to reduce the computation of the area of a complicated region to a one-dimensional integral over its boundary.
+Notice that the sign of the integral is to be reversed if the curves are oriented clockwise. Our hypothesis can be rewritten
+\begin{equation}
+\forall i : \int _{C_i} y dx - x dy \ge 0 .
+\end{equation}
+
+Let us define the complex function 
+\begin{equation}
+f_{z_0}(z) = \frac{1}{x-x_0+i(y-y_0)} .
+\end{equation} The integral of $f(z)$ over a closed curve is equal to $2i\pi $ times the number of turns that the closed curve makes around the point $x_0 + i y_0$ (to prove that, use the fact that $(f(z)$ is analytic everywhere in the complex plane except at $x_0 + i y_0$ and use the residue theorem).
+
+We define
+\begin{equation}
+J_i (x_0, y_0) = Im \left\{ \int _{C_i} \frac{dx+i dy}{x-x_0+i(y-y_0)} \right\} ,
+\end{equation} and
+\begin{equation}
+I_i (x_0, y_0) =\left\{
+\begin{array}{cl}
+1 & \text{if } J_i (x_0, y_0) < \pi\\
+-1 & \text{if } J_i (x_0, y_0) \ge \pi
+\end{array}
+\right. ,
+\end{equation} and we notice that $I_i (x_0, y_0) $ is positive when the point $(x_0, y_0)$ is contained in $A_i$ and negative otherwise.
+
+
+\section{Area of Intersections}
+
+In order to extract $[A\backslash B]$ and $[B\backslash A]$ from the shape of the curves, we define the following quantities
+
+\begin{equation}
+Q_1 = \int _{C_1} I_2(x,y) \left( y dx - xdy \right) \int _{C_2} I_1(x,y) \left( y dx - xdy \right),
+\end{equation}
+
+\begin{equation}
+Q_2 = \int _{C_1} \frac{I_2(x,y)+1}{2} \left( y dx - xdy \right) + \int _{C_2} \frac{I_1(x,y)+1}{2} \left( y dx - xdy \right),
+\end{equation}
+
+\begin{equation}
+Q_3 = \int _{C_1} \frac{I_2(x,y)-1}{-2} \left( y dx - xdy \right) + \int _{C_2} \frac{I_1(x,y)-1}{-2} \left( y dx - xdy \right).
+\end{equation} A quick look at the different paths reveals that
+\begin{equation}
+Q_1=[A_1\cup A_2] - [A_1\cap A_2] = [A_1\backslash A_2] +[A_2\backslash A_1]
+\end{equation}
+\begin{equation}
+Q_2=[A_1\cup A_2] ,
+\end{equation}
+\begin{equation}
+Q_3=[A_1\cap A_2] .
+\end{equation}
+
+Notice that the three equation above are not linearly independent and {\em any} of them can give us the expected results. However, we compute $Q_1$, $Q_2$ and $Q_3$ and use the redondency to minimize the error on the integrals and provide an approximation of the computational error. Since
+\begin{equation}
+[A_1 \backslash A_2] = [A_1 \cup A_2] - [A_2] = [A_1] - [A_1\cap A_2] ,
+\end{equation} and
+\begin{equation}
+[A_2 \backslash A_1] = [A_1 \cup A_2] - [A_1] = [A_2] - [A_1\cap A_2], 
+\end{equation} we have
+\begin{equation}
+[A_1 \backslash A_2] = \frac{1}{2} (Q_2-Q_3) + \frac{1}{2} ([A_1]-[A_2]),
+\end{equation} and
+\begin{equation}
+[A_2 \backslash A_1] = \frac{1}{2} (Q_2-Q_3) + \frac{1}{2} ([A_2]-[A_1]).
+\end{equation}
+
+And using
+\begin{equation}
+[A_1]+[A_2]=[A_1 \cup A_2]+[A_1 \cap A_2],
+\end{equation} we find
+\begin{equation}
+[A_1 \backslash A_2] = \frac{1}{2} Q_1 + \frac{1}{2} ([A_1]-[A_2]),
+\end{equation} and
+\begin{equation}
+[A_2 \backslash A_1] = \frac{1}{2} Q_2 + \frac{1}{2} ([A_2]-[A_1]).
+\end{equation}
+
+Our algorithm combines these two results and provides the following final answer
+\begin{equation}
+[A_1 \backslash A_2]  =  \frac{1}{2} (A_1 - A_2) + \frac{1}{4} (Q_1+Q_2-Q_3) ,\end{equation}
+\begin{equation}
+[A_2 \backslash A_1]  =  \frac{1}{2} (A_2 - A_1) + \frac{1}{4} (Q_1+Q_2-Q_3) ,
+\end{equation}
+\begin{equation}
+\delta [A_1 \backslash A_2]  =  \delta [A_2 \backslash A_1 ] = \frac{1}{4} \left| Q_2-Q_3-Q_1 \right| .
+\end{equation}
+
+\section{Implementation}
+
+This algorithm is the {\em -light} mod of lober. The syntax is
+\begin{verbatim}
+lober -light <c1> <c2> <rslt> [ -DENS <nPass> <nDens> ]
+\end{verbatim} where \verb+<c1>+ and \verb+<c2>+ are the names of the files containing respectively the curves $C_1$ and $C_2$ and \verb+<rslt>+ is the file to be created by lober to output the results. The optional arguments of the built-in densifier (\verb+-DENS <nPass> <nDens>+) are described in the next section.
+The curve are stored in the files in a {\em Tecplot} ASCII format, i.e.
+\begin{verbatim}
+VARIABLES=''x''''y''
+ZONE T=''the curve C1''
+0.2    0.4
+0.23   0.45
+0.35   0.35
+...
+\end{verbatim}
+The output file will contain one line with 4 numbers: the area of the lobes inside, the area of the lobes outside and the relative error on these two values. The output file is usefull to automate the use of lober -light, for example with a \verb+sh+ script:
+\begin{verbatim}
+#!/bin/sh
+
+FILENAME_A="separ."
+FILENAME_B=""
+FILENAME_I=0
+FILENAME_F=5
+
+OPT="-DENS 2 10"
+RSLTF="lobes.out"
+
+I=$FILENAME_I
+
+STOP="no"
+if [ -f $RSLTF ]; then
+    rm -rf $RSLTF
+fi
+touch lobes.out
+
+while [ "$STOP" = "no" ]; do  
+    STOP2="no"
+    J=`expr $I + 1`
+    while [ "$STOP2" = "no" ]; do
+	###############################
+	# RUN LOBER $I, $J ############
+	###############################
+	F1=$FILENAME_A$I$FILENAME_B
+	F2=$FILENAME_A$J$FILENAME_B
+	CMD="lober -light "$F1" "$F2" lobe.out "$OPT
+	echo $CMD
+	$CMD
+	mv $RSLTF lobes.tmp
+	( cat lobes.tmp ; echo -n $I"   "$J ; cat lobe.out ) > $RSLTF
+	rm lobes.tmp
+	###############################
+	J=`expr $J + 1`
+	if [ $J -gt $FILENAME_F ]; then
+	    STOP2="yes"
+	fi
+    done
+
+    I=`expr $I + 1`
+    if [ $I -ge $FILENAME_F ]; then
+	STOP="yes"
+    fi
+done
+\end{verbatim}
+
+\section{Built-In Densifier}
+
+There is a built-in densifier in the light version of lober. It adds points on the curves close to their intersections. To activate the densifier, add the paramters \verb+-DENS <nPass> <nDens>+ at the end of the command line. The arguments \verb+<nPass>+ and \verb+<nDens>+ give respectively the number of passes to be performed and the number of points to add near each intersection at each pass. 
+
+The extra precision is always $i_r = {n_{dens}}^{n_{pass}}$. In other words, the precision is the same with $(n_{pass}=1 , n_{dens}=1000)$ than with $(n_{pass}=3, n_{dens}=10)$. For a constant $i_r$, the value of the two parameters $n_{dens}$ and $n_{pass}$ should minimize the computational time. Small $n_{pass}$ means that fewer steps are necessary to densify the curve and can reduce the comptational time. However, small $n_{pass}$ usually implies large $n_{dens}$ to maintain a constant $i_r$. Since the extra length of the curve is $n_{dens} n_{pass}$, the number of points increases rapidly if $n_{pass}$ is too small and lengthens the computation. So there is an optimal $n_{pass}$ that minimizes computation time.
+
+Note that I usually run \verb+-DENS 1 100+ or \verb+-DENS 1 10+ and check afterwards to see that \verb+-DENS 1 1000+ does not change the final result too much. In most example $n_{pass}=1$ is close enough to the minimum. $n_{pass}=0$ speeds up the computation but is a risk. For simple curves, $n_{pass}=0$ is suitable.
+
+\end{document}

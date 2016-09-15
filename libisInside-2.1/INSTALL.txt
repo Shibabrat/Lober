@@ -1,0 +1,48 @@
+ISINSIDE LIBRARY - INSTALLATION INSTRUCTIONS
+--------------------------------------------
+
+*A***FIRST CHECK THAT EVERYTHING COMPILES PROPERLY
+  tar -xzf isInside2.1.tgz
+  cd isInside2.1
+  ./configure
+  make
+
+That should build the static and dynamic libraries. If you have root access, go to B, otherwise go to C.
+
+*B***THEN INSTALL IN PROPER DIRECTORY
+for system-wide installation:
+  su
+  <type root password>
+  make install
+  make install-strip
+That should install everything in /usr/local/lib, /usr/local/include, /usr/local/man,... You can change the target directory by typing 
+  ./configure --prefix=/usr/otherplace
+
+*C***THEN INSTALL IN USER DIRECTORY
+  ./configure --prefix=/home/username
+  make install
+  make install-strip
+That should install everything in /home/username/lib, /home/username/include, home/username/man, ... and set all the paths correctly. You can change the target directory by typing 
+  ./configure --prefix=/home/username/myprefferedloberdirectory/subdir
+Notice that the installation of lober will put files in two directories:
+       /install-root/lib/     dynamic and static libraries
+       /install-root/include/ header file
+       /install-root/man/     man pages
+
+*D***MAKE SURE THAT THE HEADER AND EXEC OF LIBISINSIDE ARE ACCESSIBLE FOR OTHER
+     PROGRAMS.
+  If libisInside was installed system-wide by an administrator, that should not be a problem. libisInside is installed by default in /usr/local. Hence the header file is in /usr/local/include and the library is in /usr/local/lib. Some systems do not check /usr/local/lib automatically and requires adding "/usr/local/lib" to the environment variable LD_LIBRARY_PATH to run properly.
+  If libisInside was installed by a user in his home directory, some adjustment can be made to easily compile programs with the library.
+     1) The compiler must be able to find the include file: you can do this by adding "/home/login/include" to CPLUS_INCLUDE_PATH. Some systems may use C_INCLUDE_PATH or GCC_INCLUDE_PATH. I rum bash and use:
+     export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/home/lekien/include
+If you use csh, tcsh, "man setenv" and set the variables to what they have to be.
+     2) The linker must be able to find the library at link time. I do this by adding "/home/login/lib" to the env. variable LIBRARY_PATH
+     3) After that, everything should compile and link properly. You may want to add "/home/login/lib" to LD_LIBRARY_PATH too. lober will not run if the path to libisInside is not listed in one of the LD paths.
+  Notice that, since you are installing programs, libraries and headers in your home directory, you should really make these changes to the environment variables directly in the appropriate configuration file: .cshrc, .bashrc. At least, you should have a "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/login/lib" and a "export PATH=$PATH:/home/login/bin" so you do not have to set that variable each time you run lober.
+
+*E***TO CLEAN EVERYTHING
+  make clean
+
+*F***TO UNINSTALL
+  make uninstall
+  (make sure that you ./configure --prefix= with the right prefix before

@@ -1,0 +1,150 @@
+<HTML><HEAD><TITLE>Manpage of lober 1.8</TITLE>
+</HEAD><BODY>
+<H1>lober 1.8</H1>
+Section: LOBES AND LOBE AREAS (1)<BR>Updated: March 15, 2004<BR><A HREF="#index">Index</A>
+<HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME </H2>
+
+lober - Computation of lobes, lobe area, curve intersections and primary intersection points (PIPs).
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS </H2>
+
+<B>lober -h</B>
+
+<P>
+<B>lober </B><I>unsfile stbfile lobefile manifile pipsfile unsskip stbskip nZones </I>[ <I>lobefile</I> [ <I>lobeseq</I> ] ]
+
+<P>
+<B>lober -light </B><I>separfile lobefile lobeoutfile</I> [ -DENS <I>nPass</I> [ <I>nDens</I> ] ]
+
+<P>
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<P>
+<B>SYNTAX 1</B>
+
+<P>
+<I>unsfile</I><TT>&nbsp;</TT>  File containing unstable manifold<BR>
+<P>
+<I>stbfile</I><TT>&nbsp;</TT>  File containing stable manifold<BR>
+<P>
+<I>lobefile</I><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>  File to output colored lobes<BR>
+<P>
+<I>manifile</I><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>  File to output simplified manifolds<BR>
+<P>
+<I>pipsfile</I><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>  File to output pips<BR>
+<P>
+<I>unsskip</I><TT>&nbsp;</TT>  Zones to skip in unsfile (often 0)<BR>
+<P>
+<I>stbskip</I><TT>&nbsp;</TT>  Zones to skip in stbfile (often 0)<BR>
+<P>
+<I>nZones</I><TT>&nbsp;&nbsp;</TT>  Number of zones (often 1)<BR>
+<P>
+<I>lobebfile</I><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>  File to output lobe boundary<BR>
+<P>
+<I>lobeseq</I><TT>&nbsp;</TT>  Divide lobes in sequences (default=2)<BR>
+<P>
+<B>SYNTAX 2 ( -light mode )</B>
+
+<P>
+<I>separfile</I><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>  File containing separatrix<BR>
+<P>
+<I>lobefile</I><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>  Files containing lobes<BR>
+<P>
+<I>lobeoutfile</I> Files to output cleaned lobes
+<P>
+<I>nPass</I><TT>&nbsp;&nbsp;&nbsp;</TT>  See <B>-DENS</B> option below<BR>
+<P>
+<I>nDens</I><TT>&nbsp;&nbsp;&nbsp;</TT>  See <B>-DENS</B> option below<BR>
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<P>
+<B>-h --help</B><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT> Display syntax and help. This option invalidates any other arguments.<BR>
+<P>
+<B>-light</B>  Light mode for curves with tangent intersections. Syntax is different for light mode (see SYNTAX 2 above).
+<P>
+<B>-DENS</B>  This option is only available for the -light mode (i.e. SYNTAX 2). By default, lober will try to insert points on the curve near their intersections. This is the automatic conditionning (without the <B>-DENS</B> option). The <B>-DENS</B> option allows the insertion of <I>nDens</I> points uniformely distributed on segments of curve that contains an intersection. The operation is performed <I>nPass</I> times. Notice that, by default, there is insertion of 1 point at the intersection point. To avoid the automatic insertion and use the curves as they are, use &quot;<B>-DENS</B> 0&quot;. The arguments of <B>-DENS</B> are
+<P>
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT><I>nPass</I><TT>&nbsp;&nbsp;&nbsp;</TT>number of passes (required, can be zero)<BR>
+<P>
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT><I>nDens</I><TT>&nbsp;&nbsp;&nbsp;</TT>number of points to add (default=10)<BR>
+<P>
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>DOCUMENTATION</H2>
+
+F. Lekien, S. Ross, J. Marsden, Lobe and Lobe Areas, International Journal of Numerical Methods in Engineering, Volume ??, pp 10-20, 2005.
+<P>
+<A HREF="http://www.lekien.com/~francois/papers/lober">http://www.lekien.com/~francois/papers/lober</A>
+<P>
+<A NAME="lbAG">&nbsp;</A>
+<H2>DOWNLOAD AND SOURCE</H2>
+
+<A HREF="http://www.lekien.com/~francois/software/lober">http://www.lekien.com/~francois/software/lober</A>
+<P>
+<A NAME="lbAH">&nbsp;</A>
+<H2>DEPENDENCIES</H2>
+
+Lober 1.8 requires <B>libisInside 2.x</B> or above.
+<P>
+libisInside: <A HREF="http://www.lekien.com/~francois/software/libisInside">http://www.lekien.com/~francois/software/libisInside</A>
+<P>
+<A NAME="lbAI">&nbsp;</A>
+<H2>COPYRIGHT </H2>
+
+<B>Lober is Copyright (c) 2003-2005 Francois Lekien and Shane Ross, Control and Dynamical Systems, California Institute of Technology, Pasadena, CA 91125.</B>
+
+<P>
+This program is free software; you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation; either version 2 of the License, 
+or (at your option) any later version.
+<P>
+You should have received a copy of the GNU General Public License 
+along with this program; if not, write to the Free Software 
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, 
+MA 02111-1307 USA.
+<P>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>BUGS</H2>
+
+Report bugs to lekien AT princeton DOT edu
+<P>
+<A NAME="lbAK">&nbsp;</A>
+<H2>AUTHORS </H2>
+
+<B>Francois Lekien and Shane Ross</B>
+
+<P>
+Email : lekien AT princeton DOT edu
+<P>
+Email : shane AT cds DOT caltech DOT edu
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME </A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS </A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">DOCUMENTATION</A><DD>
+<DT><A HREF="#lbAG">DOWNLOAD AND SOURCE</A><DD>
+<DT><A HREF="#lbAH">DEPENDENCIES</A><DD>
+<DT><A HREF="#lbAI">COPYRIGHT </A><DD>
+<DT><A HREF="#lbAJ">BUGS</A><DD>
+<DT><A HREF="#lbAK">AUTHORS </A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 02:57:38 GMT, March 16, 2005
+</BODY>
+</HTML>

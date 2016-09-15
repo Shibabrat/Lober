@@ -1,0 +1,147 @@
+.TH isinside 3 "March 15, 2005" "version 2.1" "ISINSIDE LIBRARY"
+.SH NAME 
+libisInside \- Determine if a point is inside a polygon in a plane or a polyhedron in space
+.SH SYNOPSIS 
+.B include <isInside.h>
+
+.B class signed_curve {
+     \fPsigned_curve(long \fIN\fP, double **\fIx\fP);
+     signed_curve(long \fIN\fP, double *\fIx\fP);
+     signed_curve(const char *\fIfilename\fP);
+     double area(void);
+     int rotation(void);
+     int isInside(double \fIx[2]\fP);
+     double d_isInside(double \fIx[2]\fP);
+ \fB};
+
+.B class signed_surface {
+     \fPsigned_surface(long \fIN\fP, long \fIM\fP, double **\fIx\fP, long **\fItri\fP);
+     signed_surface(long \fIN\fP, long \fIM\fP, double *\fIx\fP, long *\fItri\fP);
+     signed_surface(const char *\fIfilename\fP);
+     double volume(void);
+     int rotation(void);
+     int isInside(double \fIx[3]\fP);
+     double d_isInside(double \fIx[3]\fP);
+ \fB};
+
+.SH DESCRIPTION of SIGNED_CURVE (2D)
+The class
+.B signed_curve
+is used to desribe a 2D polygonial curve in the plane. It can compute the area of that polgon and determine if a 2D point is inside or outside the polgon. The object is created by calling one of the 3 constructors. 
+
+For
+.B signed_curve(long \fIN\fP, double **\fIx\fP)
+, \fIN\fP is the number of points on the curve and the double array \fIx\fP contains the coordinate of each point as follows:
+          \fIx\fP[0][0]=x1
+          \fIx\fP[1][0]=y1
+          \fIx\fP[0][1]=x2
+          \fIx\fP[1][1]=y2
+          ...
+          \fIx\fP[0][N-1]=xN
+          \fIx\fP[1][N-1]=yN
+
+For
+.B signed_curve(long \fIN\fP, double *\fIx\fP)
+, \fIN\fP is the number of points on the curve and the array \fIx\fP contains the coordinate of each point in the following order:
+          \fIx\fP[0]=x1
+          \fIx\fP[1]=y1
+          \fIx\fP[2]=x2
+          \fIx\fP[3]=y2
+          ...
+          \fIx\fP[2*N-2]=xN
+          \fIx\fP[2*N-1]=yN
+
+
+Finally, the constructor
+.B signed_curve(const char \fIfilename\fP)
+reads the polygon from the file \fIfilename\fP. The file must contain one line with the number of points on the curve followed by one line for each point. Each line gives the two coordonates of the point:
+          N
+          x1  y1
+          x2  y2
+          ...
+          xN  yN
+
+Notice that starting with version 2.1, the last point does
+.B not 
+have to (but can be) be identical to the first one. An extra segment from the last point to the first one will be added automatically to close the curve. Multiple instances of the same point are allowed but not recommended as it results in a higher computational time. The curves are usually entered in a
+.B counter-clockwise
+direction. However, starting with version 1.1, it is also allowed to input clockwise curves. The direction of rotation of the curve is determined and stored and does not influence the computational time. If needed, the function
+.B rotation(void)
+returns the direction rotation (
+.B -1
+for counter-clockwise curves and 
+.B +1
+for clockwise curves.
+
+The area of the polygon enclosed by the polygonial curve is computed when the curve is given and stored. The stored (positive) value can be retrieved (at no extra computational cost) with 
+.B double area(void). 
+The computation of the area is exact for polygons and pretty efficient for two-dimensional polygons. Hence,
+.B signed_curve 
+is a good class to use if the objective is to compute the area (and no interest in determining if specific points are inside or outside). This is a major difference with the three-dimensional version. The 3D polygon in 
+.B signed_surface
+undergoes a serie of pre-computation in the constructor to speed subsequent calls to its
+.B isInside 
+function. If only the volume of the polygon is needed, 
+.B signed_surface
+wastes CPU time by doing unnecessary computations required only by 
+.B isInside.
+
+The most important function in the class is
+.B int isInside(double \fIx[2]\fP).
+The input are the coordinates of a point \fIx[0]\fP and \fIx[1]\fP and the output is
+
+    \fB-1\fP if \fIx\fP is outside the curve,
+
+    \fB 0\fP if \fIx\fP is on the curve (at machine precision),
+
+    \fB+1\fP if \fIx\fP is inside the curve.
+
+The paper referenced in the documentation section below explains how \fBisInside\fP determines its return value. An intermediate integral is computed and is value determines the position of the point with respect to the curve. This integral can be evaluated directly using \fBdouble d_isInside(double \fP\fIx[2]\fP\fB)\fP. The input is a point (identical to \fBint isInside(double \fP\fIx[2]\fP\fB)\fP) and its return value is
+
+    \fB0     \fP if \fIx\fP is outside the curve,
+
+    \fIM_PI\fP  \ if \fIx\fP is on the curve (at machine precision),
+
+    \fB2*\fP\fIM_PI\fP if \fIx\fP is inside the curve.
+
+where \fIM_PI\fP is defined in \fB<math.h>\fP. Notice that there is no guarantee that the value returned by \fBdouble d_isInside\fP is exactly one of the three values above. Numerical errors can create small deviations. In practice, I don't see why anyone would need to use \fBdouble d_isInside\fP. Instead, use \fBint isInside\fP. The latter essentially calls \fBdouble d_isInside\fP and return \fB-1\fP, \fB0\fP or \fB+1\fP based on its return value according to
+
+    \fBdouble d_isInside\fP           =>     \fBint isInside\fP returns:
+
+          <=\fIM_PI\fP/2                              \fB-1\fP
+
+          >\fM_PI\fP/2 and < 3*\fIM_PI\fP/2                    \fB 0\fP
+
+          >=3*\fIM_PI\fP/2                            \fB+1\fP
+
+.SH DESCRIPTION of SIGNED_SURFACE (3D)
+
+\fBsigned_surface\fP is not finished yet. It is fully functionnal but extremely inefficient. Documentation in the next version.
+
+.SH DOCUMENTATION
+F. Lekien, S. Ross and J.E. Marsden, Lobe and Lobe Area, International Journal of Numerical methods in Engineering, Volume ??, pp 10-20, 2005.
+.SH DOWNLOAD AND SOURCE
+http://www.lekien.com/software/libisInside
+.SH SEE ALSO 
+http://www.lekien.com/~francois/papers/lobe
+.SH EXAMPLE
+See commented examples in http://www.lekien.com/software/libisInside
+.SH COPYRIGHT 
+.B libisInside is Copyright (c) 2003-2005 Francois Lekien.
+
+This program is free software; you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation; either version 2 of the License, 
+or (at your option) any later version.
+
+You should have received a copy of the GNU General Public License 
+along with this program; if not, write to the Free Software 
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, 
+MA 02111-1307 USA.
+
+.SH BUGS
+Report bugs to Lekien AT Princeton followed by DOT follwed by EDU
+
+.SH AUTHORS 
+.B Francois Lekien.
+E-mail : Lekien AT Princeton followed by DOT follwed by EDU

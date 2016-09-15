@@ -1,0 +1,5 @@
+version.lo: version.cpp isInside.h version.h
+
+isInside.h:
+
+version.h:

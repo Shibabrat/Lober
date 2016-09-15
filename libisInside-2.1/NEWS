@@ -1,0 +1,10 @@
+	2003-06-15
+First release of libisInside. Library is used to determine if a 2D point is inside a 2D polygonial curve.
+	2004-01-29
+Library revised for a minor bug. The result of the computation of the area inside a curve and the result of isInside is now exact (to machine precision) for any closed polygonial curve and for any point except those on the boundary.
+	2004-11-01
+Major revision of the interface. isInside now detects points on the boundary and returns 0 for such points. Points inside still return 1. However, points outside now return -1 (was 0 previously). This is interface 2.x and it is not compatible with any previous versions.
+	2004-11-01
+Algorithm revised for numerical stability near the boundary. Results are accurate up to machine precision (I tested 1E-40 but could not really have my graphic software look below that). The 2D part of libisInside seems finished completely. Next item on the task list is an equivalent for 3D boundaries for the upcoming MANGEN 3D and lober 3D. 
+	2005-03-15
+libisInside now also contains the interface for 3D boundaries (unstructured meshes made of triangular elements). Computation of the volume contained in such boundaries is finished. However, it is not efficient to use libisInside to compute volumes. The computation of the volume (when the boundary is first loaded) also set up data used by isInside. This extra CPU time and memory allocation is wasted for someone only interested in the volume. Also notice that the current implementation of isInside is not finished. The integrals have not been solved analytically yet and the results is imprecise and slow due to the numerical integration. Use at your own risk or wait for the next release !!!

@@ -1,0 +1,95 @@
+.TH lober 1 "March 15, 2004" "version 1.8" "LOBES AND LOBE AREAS"
+.SH NAME 
+lober \- Computation of lobes, lobe area, curve intersections and primary intersection points (PIPs).
+.SH SYNOPSIS 
+.B lober -h
+
+.B lober \fIunsfile stbfile lobefile manifile pipsfile unsskip stbskip nZones \fP[ \fIlobefile\fP [ \fIlobeseq\fP ] ]
+
+.B lober -light \fIseparfile lobefile lobeoutfile\fP [ -DENS \fInPass\fP [ \fInDens\fP ] ]
+
+
+.SH DESCRIPTION
+
+.B SYNTAX 1
+
+\fIunsfile\fP	  File containing unstable manifold
+
+\fIstbfile\fP	  File containing stable manifold
+
+\fIlobefile\fP	  File to output colored lobes
+
+\fImanifile\fP	  File to output simplified manifolds
+
+\fIpipsfile\fP	  File to output pips
+
+\fIunsskip\fP	  Zones to skip in unsfile (often 0)
+
+\fIstbskip\fP	  Zones to skip in stbfile (often 0)
+
+\fInZones\fP	  Number of zones (often 1)
+
+\fIlobebfile\fP	  File to output lobe boundary
+
+\fIlobeseq\fP	  Divide lobes in sequences (default=2)
+
+.B SYNTAX 2 ( -light mode )
+
+\fIseparfile\fP	  File containing separatrix
+
+\fIlobefile\fP	  Files containing lobes
+
+\fIlobeoutfile\fP Files to output cleaned lobes
+
+\fInPass\fP	  See \fB-DENS\fP option below
+
+\fInDens\fP	  See \fB-DENS\fP option below
+
+.SH OPTIONS
+
+\fB-h --help\fP	 Display syntax and help. This option invalidates any other arguments.
+
+\fB-light\fP  Light mode for curves with tangent intersections. Syntax is different for light mode (see SYNTAX 2 above).
+
+\fB-DENS\fP  This option is only available for the -light mode (i.e. SYNTAX 2). By default, lober will try to insert points on the curve near their intersections. This is the automatic conditionning (without the \fB-DENS\fP option). The \fB-DENS\fP option allows the insertion of \fInDens\fP points uniformely distributed on segments of curve that contains an intersection. The operation is performed \fInPass\fP times. Notice that, by default, there is insertion of 1 point at the intersection point. To avoid the automatic insertion and use the curves as they are, use "\fB-DENS\fP 0". The arguments of \fB-DENS\fP are
+
+	\fInPass\fP	number of passes (required, can be zero)
+
+	\fInDens\fP	number of points to add (default=10)
+
+
+.SH DOCUMENTATION
+F. Lekien, S. Ross, J. Marsden, Lobe and Lobe Areas, International Journal of Numerical Methods in Engineering, Volume ??, pp 10-20, 2005.
+
+http://www.lekien.com/~francois/papers/lober
+
+.SH DOWNLOAD AND SOURCE
+http://www.lekien.com/~francois/software/lober
+
+.SH DEPENDENCIES
+Lober 1.8 requires \fBlibisInside 2.x\fP or above.
+
+libisInside: http://www.lekien.com/~francois/software/libisInside
+
+.SH COPYRIGHT 
+.B Lober is Copyright (c) 2003-2005 Francois Lekien and Shane Ross, Control and Dynamical Systems, California Institute of Technology, Pasadena, CA 91125.
+
+This program is free software; you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation; either version 2 of the License, 
+or (at your option) any later version.
+
+You should have received a copy of the GNU General Public License 
+along with this program; if not, write to the Free Software 
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, 
+MA 02111-1307 USA.
+
+.SH BUGS
+Report bugs to lekien AT princeton DOT edu
+
+.SH AUTHORS 
+.B Francois Lekien and Shane Ross
+
+Email : lekien AT princeton DOT edu
+
+Email : shane AT cds DOT caltech DOT edu
