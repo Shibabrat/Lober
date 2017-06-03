@@ -1,12 +1,7 @@
----
-title: 'Lober: Computational method for lobe dynamics'
-output:
-  html_document: default
-  pdf_document: default
-bibliography: Naik-etal-RCD17.bib
----
-## Theory and applications: 
-@Naik2017a
+## Lober: Computational method for lobe dynamics
+
+Reference for theory and applications
+[1] S. Naik, F. Lekien, S.D. Ross, Computational method for phase space transport with applications to lobe dynamics and rate of escape, Regular and Chaotic Dynamics, 22 (2017) 272–297. doi:10.1134/S1560354717030078.
 
 ## Installing and troubleshooting
 Version: Lober 1.8 on Mac OS X with XCode
@@ -18,7 +13,6 @@ Version: Lober 1.8 on Mac OS X with XCode
   Check if your issues are documented in Install-issues.txt and use the troubleshooting therein.
   Email me at shiba@vt.edu with bugs and questions related to the paper and the library.
 
-## Reference
 
 
 
