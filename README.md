@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-# Lober: Computational method for phase space transport 
+# Lober: Computational engine for phase space transport
 
 ## Reference for theory and applications
-=======
-## Lober: Computational method for lobe dynamics
 
-Reference for theory and applications
->>>>>>> 1060595bf3136cdf0e11494b0d6e16aa4f213d98
 [1] S. Naik, F. Lekien, S.D. Ross, Computational method for phase space transport with applications to lobe dynamics and rate of escape, Regular and Chaotic Dynamics, 22 (2017) 272–297. doi:10.1134/S1560354717030078.
 
 ## Installing and troubleshooting
